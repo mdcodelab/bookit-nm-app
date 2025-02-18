@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-function BookedRoomCard({ booking, refreshBookings }) {  
+function BookedRoomCard({ booking}) {  
   const handleCancelBooking = async (bookingId) => {
     if (!bookingId) {
       toast.error("Booking ID is missing!");
@@ -26,7 +26,6 @@ function BookedRoomCard({ booking, refreshBookings }) {
 
         if (response.ok) {
           toast.success("Booking canceled successfully.");
-          refreshBookings(); // 🔥 Actualizează lista de booking-uri!
         } else {
           toast.error(data.message || "Failed to cancel booking.");
         }
