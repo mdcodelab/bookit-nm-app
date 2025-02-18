@@ -81,7 +81,7 @@ function Form({ room, bookedDates}) {
         check_out: checkOutDate,
       };
   
-      const response = await fetch("http://localhost:3000/api/booking", {
+      const response = await fetch("https://bookit-app-fc55.onrender.com/api/booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

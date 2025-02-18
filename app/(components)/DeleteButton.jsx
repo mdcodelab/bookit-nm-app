@@ -11,7 +11,7 @@ function DeleteButton({ roomId }) {
     const confirmed = window.confirm('Are you sure you want to delete this room?');
     if (confirmed) {
       try {
-        const response = await fetch('http://localhost:3000/api/deleteRoom', {
+        const response = await fetch('https://bookit-app-fc55.onrender.com/api/deleteRoom', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
