@@ -5,7 +5,6 @@ import User from "@/models/userSchema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-dotenv.config();
 export async function POST(request) {
     try {
       await mongoose.connect(process.env.MONGO_URL);
