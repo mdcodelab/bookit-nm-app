@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import User from "@/models/userSchema.js";
-import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
