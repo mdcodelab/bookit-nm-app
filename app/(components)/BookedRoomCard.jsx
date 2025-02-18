@@ -1,10 +1,9 @@
-
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-function BookedRoomCard({ booking}) {  
+function BookedRoomCard({ booking, refreshBookings }) {  
   const handleCancelBooking = async (bookingId) => {
     if (!bookingId) {
       toast.error("Booking ID is missing!");
@@ -26,6 +25,7 @@ function BookedRoomCard({ booking}) {
 
         if (response.ok) {
           toast.success("Booking canceled successfully.");
+          refreshBookings(); // 🔥 Actualizează lista de booking-uri!
         } else {
           toast.error(data.message || "Failed to cancel booking.");
         }

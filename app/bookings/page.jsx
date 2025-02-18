@@ -1,12 +1,25 @@
-import React from 'react';
-import Heading from '../(components)/Heading';
-import BookedRoomCard from '../(components)/BookedRoomCard';
-import axios from 'axios';
+"use client";
+import React, { useState, useEffect } from "react";
+import Heading from "../(components)/Heading";
+import BookedRoomCard from "../(components)/BookedRoomCard";
+import axios from "axios";
 
-async function BookingsPage() {
-  const response = await axios.get('http://localhost:3000/api/getBookings');
-  const bookings = response.data;
-  console.log('Bookings', bookings);
+function BookingsPage() {
+  const [bookings, setBookings] = useState([]);
+
+
+  const fetchBookings = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/getBookings");
+      setBookings(response.data);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
 
   return (
     <div className="min-h-[50vh]">
@@ -14,9 +27,9 @@ async function BookingsPage() {
       <div>
         {bookings.length > 0 ? (
           <div>
-            {bookings.map((booking, index) => {
-              return <BookedRoomCard key={index} booking={booking} />;
-            })}
+            {bookings.map((booking) => (
+              <BookedRoomCard key={booking._id} booking={booking} refreshBookings={fetchBookings} />
+            ))}
           </div>
         ) : (
           <p className="text-center mt-4">You have no bookings yet.</p>
