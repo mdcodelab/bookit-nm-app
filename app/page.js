@@ -27,7 +27,7 @@ function Page() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div classname="min-h-[50vh]">Loading...</div>;
   }
 
   return (

@@ -1,32 +1,42 @@
 "use client";
-import React from 'react';
-//import { rooms } from "../../../data/rooms.js";
-import Heading from '@/app/(components)/Heading';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FaChevronLeft } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import Heading from "@/app/(components)/Heading";
+import Link from "next/link";
+import Image from "next/image";
+import { FaChevronLeft } from "react-icons/fa";
 import { getAllRooms } from "../../actions/getAllRooms.js";
-import Form from '@/app/(components)/Form';
+import Form from "@/app/(components)/Form";
 
-async function RoomPage({ params }) {
-  const rooms = await getAllRooms();
-  const { id } = params;
-  console.log("ID este:", id);
-  const room = rooms.find((room) => room._id === id);
+function RoomPage() {
+  const { id } = useParams();
+  const [room, setRoom] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!room) {
-    return <Heading title="Room Not Found." />;
-  }
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        const rooms = await getAllRooms();
+        const selectedRoom = rooms.find((room) => room._id === id);
+        setRoom(selectedRoom);
+      } catch (error) {
+        console.error("Error fetching room:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchRoom();
+  }, [id]);
+
+  if (loading) return <Heading title="Loading..." />;
+  if (!room) return <Heading title="Room Not Found." />;
 
   return (
     <>
       <Heading title={room.name} />
       <div className="bg-white shadow rounded-lg p-6">
-        <Link
-          href="/"
-          className="flex items-center text-gray-600 hover:text-gray-800 mb-4"
-        >
+        <Link href="/" className="flex items-center text-gray-600 hover:text-gray-800 mb-4">
           <FaChevronLeft className="inline mr-1" />
           <span className="ml-2">Back to Rooms</span>
         </Link>
@@ -44,27 +54,17 @@ async function RoomPage({ params }) {
             <p className="text-gray-600 mb-4">{room.description}</p>
 
             <ul className="space-y-2">
-              <li>
-                <span className="font-semibold text-gray-800">Size:</span> {room.sqft} ft
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">Availability: </span>
-                {room.availability}
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">Price: </span>
-                {room.price_per_hour}/hour
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">Address:</span> {room.address}
-              </li>
+              <li><span className="font-semibold text-gray-800">Size:</span> {room.sqft} ft</li>
+              <li><span className="font-semibold text-gray-800">Availability:</span> {room.availability}</li>
+              <li><span className="font-semibold text-gray-800">Price:</span> {room.price_per_hour}/hour</li>
+              <li><span className="font-semibold text-gray-800">Address:</span> {room.address}</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-6">
           <h2 className="text-xl font-bold">Book this Room</h2>
-          <Form room={room}/>
+          <Form room={room} />
         </div>
       </div>
     </>
