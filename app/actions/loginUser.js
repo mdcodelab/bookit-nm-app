@@ -4,10 +4,10 @@ export async function loginUser(email, password) {
   try {
     const res = await fetch("https://bookit-app-fc55.onrender.com/api/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", 
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
