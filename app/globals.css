@@ -30,6 +30,7 @@ body {
 /*  */
 .height {
   height: 100%;
+  min-height: 50vh;
 }
 
 /* VERTICAL ACCORDEON */

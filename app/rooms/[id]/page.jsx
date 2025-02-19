@@ -29,7 +29,7 @@ function RoomPage() {
     fetchRoom();
   }, [id]);
 
-  if (loading) return <Heading title="Loading..." />;
+  if (loading) return <div className="min-h-[50vh] height">Loading...</div>;
   if (!room) return <Heading title="Room Not Found." />;
 
   return (
