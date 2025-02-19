@@ -11,7 +11,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const { setIsAuthenticated, setUserId, userId} = useAuthContext();
+  const { setUserId, userId} = useAuthContext();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -23,7 +23,6 @@ function LoginPage() {
     try {
       const response = await loginUser(email, password);
       if (response.success) {
-        setIsAuthenticated(true);
         toast.success(response.success);
         setUserId(response.user.id); 
         router.push("/");
@@ -35,7 +34,7 @@ function LoginPage() {
       toast.error(error.message);
     }
   }
-console.log("The user id issssssssssssss:", userId);
+console.log("The user id is:", userId);
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
