@@ -1,11 +1,10 @@
-
 "use client";
 import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { createUser } from '../actions/createUser.js';
-import { useRouter } from 'next/navigation';
+import { register } from '../actions/userActions';
+//import { useRouter } from 'next/navigation';
 
 function RegisterPage() {
   const [name, setName]=useState("");
@@ -13,14 +12,14 @@ function RegisterPage() {
   const [password, setPassword]=useState("");
   const [rePassword, setRePassword]=useState("");
 
-const router = useRouter();
+//const router = useRouter();
 
   async function handleSubmit (e) {
     e.preventDefault();
-    const response = await createUser(name, email, password, rePassword);
+    const response = await register(name, email, password, rePassword);
     if(response.success) {
       toast.success(response.success);
-      router.push("/login");
+      //router.push("/login");
     } else if (response.error) {
       toast.error(response.error)
     } else {

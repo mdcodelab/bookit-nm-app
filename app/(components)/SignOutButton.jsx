@@ -16,7 +16,7 @@ function SignOutButton() {
         } else {
             toast.error(response.message);
         }
-    }; // 🔴 Adăugat acolada de închidere
+    }
 
     return (
         <button 

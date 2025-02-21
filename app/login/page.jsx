@@ -1,17 +1,15 @@
 "use client";
-"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { loginUser } from "../actions/loginUser";
-import { useAuthContext } from "@/context/authContext";
+import { login } from "../actions/userActions";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const { setUserId, userId} = useAuthContext();
+  
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,10 +19,9 @@ function LoginPage() {
     }
     
     try {
-      const response = await loginUser(email, password);
+      const response = await login(email, password);
       if (response.success) {
         toast.success(response.success);
-        setUserId(response.user.id); 
         router.push("/");
       } else {
         toast.error(response.error);
@@ -34,7 +31,7 @@ function LoginPage() {
       toast.error(error.message);
     }
   }
-console.log("The user id is:", userId);
+
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
