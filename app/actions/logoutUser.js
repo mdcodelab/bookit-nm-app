@@ -2,7 +2,7 @@
 
 export async function logoutUser() {
   try {
-    const res = await fetch("https://bookit-app-fc55.onrender.com/api/logout", {
+    const res = await fetch("http://localhost:3000/api/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

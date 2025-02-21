@@ -10,7 +10,7 @@ function BookingsPage() {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get("https://bookit-app-fc55.onrender.com/api/getBookings");
+      const response = await axios.get("http://localhost:3000/api/getBookings");
       setBookings(response.data);
     } catch (error) {
       console.error("Error fetching bookings:", error);

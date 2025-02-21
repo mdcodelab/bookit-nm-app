@@ -47,7 +47,7 @@ function AddRoomsPage() {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch('https://bookit-app-fc55.onrender.com/api/createRoom', {
+      const response = await fetch('http://localhost:3000/api/createRoom', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,7 +2,7 @@
 
 export async function loginUser(email, password) {
   try {
-    const res = await fetch("https://bookit-app-fc55.onrender.com/api/login", {
+    const res = await fetch("http://localhost:3000/api/login", {
       method: "POST",
       credentials: "include",
       headers: {

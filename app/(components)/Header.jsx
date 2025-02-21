@@ -1,29 +1,13 @@
-'use client';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
-import { logoutUser } from '../actions/logoutUser';
-import { toast } from 'react-toastify';
-import { useAuthContext } from '@/context/authContext';
-
-const Header = () => {
-  const {isAuthenticated, setIsAuthenticated}=useAuthContext();
-  const router = useRouter();
+import { cookies } from "next/headers";
+import SignOutButton from './SignOutButton';
 
 
-console.log("is authenticated:", isAuthenticated);
 
-  const handleLogout = async () => {
-      const response = await logoutUser();
-      if(response.success) {
-        toast.success(response.message);
-        setIsAuthenticated(false);
-        router.push("/login")
-      } else {
-        toast.error(response.message);
-      }
-  }
+const Header = async () => {
+
 
   return (
     <header className='bg-gray-200'>
@@ -43,7 +27,6 @@ console.log("is authenticated:", isAuthenticated);
                   Rooms
                 </Link>
                 {/* <!-- Logged In Only --> */}
-                {isAuthenticated && (
                   <>
                     <Link
                       href='/bookings'
@@ -52,13 +35,13 @@ console.log("is authenticated:", isAuthenticated);
                       Bookings
                     </Link>
                     <Link
-                      href='/rooms//add'
+                      href='/rooms/add'
                       className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
                     >
                       Add Room
                     </Link>
                   </>
-                )}
+    
               </div>
             </div>
           </div>
@@ -66,7 +49,6 @@ console.log("is authenticated:", isAuthenticated);
           <div className='ml-auto'>
             <div className='ml-4 flex items-center md:ml-6'>
               {/* <!-- Logged Out Only --> */}
-              {!isAuthenticated && (
                 <>
                   <Link
                     href='/login'
@@ -81,21 +63,15 @@ console.log("is authenticated:", isAuthenticated);
                     <FaUser className='inline mr-1' /> Register
                   </Link>
                 </>
-              )}
+  
 
-              {isAuthenticated && (
                 <>
                   <Link href='/rooms/my'>
                     <FaBuilding className='inline mr-1' /> My Rooms
                   </Link>
-                  <button
-                    onClick={()=>handleLogout()}
-                    className='mx-3 text-gray-800 hover:text-gray-600'
-                  >
-                    <FaSignOutAlt className='inline mr-1' /> Sign Out
-                  </button>
+                  <SignOutButton />
                 </>
-              )}
+          
             </div>
           </div>
         </div>
@@ -111,7 +87,6 @@ console.log("is authenticated:", isAuthenticated);
             Rooms
           </Link>
           {/* <!-- Logged In Only --> */}
-          {isAuthenticated && (
             <>
               <Link
                 href='/bookings'
@@ -126,7 +101,7 @@ console.log("is authenticated:", isAuthenticated);
                 Add Room
               </Link>
             </>
-          )}
+        
         </div>
       </div>
     </header>
