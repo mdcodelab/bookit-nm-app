@@ -2,7 +2,7 @@ import React from 'react';
 import Heading from '@/app/(components)/Heading';
 import MyRoomCard from '@/app/(components)/MyRoomCard';
 import { getUser } from '@/app/actions/userActions';
-import { getMyRooms } from '@/app/actions/roomsActions';
+import { getMyRooms } from '@/app/actions/myRoomsAction';
 
 async function MyRoomsPage() {
   //get user id
