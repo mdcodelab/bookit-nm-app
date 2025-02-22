@@ -71,8 +71,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
 }
 
 
-//GET USER FROM TOKEN (for profile page - protected & navbar)
+//GET USER FROM TOKEN
 export async function getUserFromToken(authToken) {
+  await mongoose.connect(process.env.MONGO_URL);
   if (!authToken) {
     throw new Error("No token found");
   }
@@ -83,11 +84,7 @@ export async function getUserFromToken(authToken) {
     const decodedToken = jwt.verify(authToken, JWT_SECRET);
 
     // Caută utilizatorul în baza de date după ID-ul din token
-    const user = await prisma.user.findUnique({
-      where: {
-        id: decodedToken.userId,
-      },
-    });
+    const user = await User.findOne({userId: decodedToken._userId})
 
     if (!user) {
       throw new Error("User not found");
@@ -105,55 +102,30 @@ export async function getUserFromToken(authToken) {
 //SIGN OUT
 export async function signOut() {
   cookies().delete("auth_token");
+  return {success: "Signed out successful."}
 }
 
 
+//GET USER
+export async function getUser() {
+  try {
+    const authToken = cookies().get("auth_token")?.value;
+    if (!authToken) return null;
 
-//change password
-export async function changePassword (email, newPassword, retypePassword) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
+    const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
+    const decodedToken = jwt.verify(authToken, JWT_SECRET);
 
-  if (!user) {
-    throw new Error("Email not found.");
+    await mongoose.connect(process.env.MONGO_URL);
+    const user = await User.findById(decodedToken.userId);
+
+    if (!user) return null;
+
+    return {
+      _id: user._id.toString(),
+      email: user.email,
+    };
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    return null;
   }
-
-  if (!user.emailVerified) {
-    throw new Error("You must verify your email first.");
-  }
-
-  if (newPassword !== retypePassword) {
-    throw new Error("Passwords must match.");
-  }
-
-  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-  await prisma.user.update({
-    where: {
-      email: email,
-    },
-    data: {
-      hashedPassword: hashedNewPassword,
-    },
-  });
-
-  //generate jwt token
-  const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
-  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: "1h",
-  });
-
-  // store the token in a cookie
-  cookies().set("auth_token", token, {
-    httpOnly: true, // Cookie-ul este accesibil doar serverului
-    secure: process.env.NODE_ENV === "production", // Cookie-ul este securizat doar în producție
-    sameSite: "strict", // Cookie-ul este accesibil doar pe același site
-    path: "/",
-    maxAge: 3600, // Cookie-ul expiră după 1 oră
-  });
-
-  redirect("/profile");
 }

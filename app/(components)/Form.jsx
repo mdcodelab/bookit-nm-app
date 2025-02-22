@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { useAuthContext } from "@/context/authContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { checkBooking } from "../actions/checkBooking";
@@ -9,7 +8,6 @@ import { useRouter } from 'next/navigation';
 
 
 function Form({ room, bookedDates}) {
-  const { userId, isAuthenticated } = useAuthContext();
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [checkInTime, setCheckInTime] = useState(null);
@@ -32,16 +30,6 @@ function Form({ room, bookedDates}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (!isAuthenticated) {
-      toast.error("Please authenticate before booking.");
-      return;
-    }
-  
-    if (!userId) {
-      toast.error("User ID is missing. Please log in again.");
-      return;
-    }
   
     if (!room?._id) {
       toast.error("Room ID is missing.");

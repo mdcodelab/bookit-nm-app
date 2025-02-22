@@ -1,13 +1,22 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
+import { getUserFromToken } from '../actions/userActions';
 import SignOutButton from './SignOutButton';
 
-
-
 const Header = async () => {
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get('auth_token')?.value;
 
+  let user = null;
+  if (authToken) {
+    try {
+      user = await getUserFromToken(authToken);
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+    }
+  }
 
   return (
     <header className='bg-gray-200'>
@@ -15,8 +24,14 @@ const Header = async () => {
         <div className='flex h-16 items-center justify-between'>
           <div className='flex items-center'>
             <Link href='/'>
-              <Image className='h-12 w-12'
-                src="images/logo.svg" alt='Bookit' width={30} height={30} priority={true}/>
+              <Image
+                className='h-12 w-12'
+                src='/images/logo.svg'
+                alt='Bookit'
+                width={30}
+                height={30}
+                priority={true}
+              />
             </Link>
             <div className='hidden md:block'>
               <div className='ml-10 flex items-baseline space-x-4'>
@@ -26,7 +41,7 @@ const Header = async () => {
                 >
                   Rooms
                 </Link>
-                {/* <!-- Logged In Only --> */}
+                {user && (
                   <>
                     <Link
                       href='/bookings'
@@ -41,43 +56,36 @@ const Header = async () => {
                       Add Room
                     </Link>
                   </>
-    
+                )}
               </div>
             </div>
           </div>
-          {/* <!-- Right Side Menu --> */}
+
           <div className='ml-auto'>
             <div className='ml-4 flex items-center md:ml-6'>
-              {/* <!-- Logged Out Only --> */}
+              {!user ? (
                 <>
-                  <Link
-                    href='/login'
-                    className='mr-3 text-gray-800 hover:text-gray-600'
-                  >
+                  <Link href='/login' className='mr-3 text-gray-800 hover:text-gray-600'>
                     <FaSignInAlt className='inline mr-1' /> Login
                   </Link>
-                  <Link
-                    href='/register'
-                    className='mr-3 text-gray-800 hover:text-gray-600'
-                  >
+                  <Link href='/register' className='mr-3 text-gray-800 hover:text-gray-600'>
                     <FaUser className='inline mr-1' /> Register
                   </Link>
                 </>
-  
-
+              ) : (
                 <>
-                  <Link href='/rooms/my'>
+                  <Link href='/rooms/my' className='mr-3 text-gray-800 hover:text-gray-600'>
                     <FaBuilding className='inline mr-1' /> My Rooms
                   </Link>
                   <SignOutButton />
                 </>
-          
+              )}
             </div>
           </div>
         </div>
       </nav>
 
-      {/* <!-- Mobile menu --> */}
+      {/* Mobile menu */}
       <div className='md:hidden'>
         <div className='space-y-1 px-2 pb-3 pt-2 sm:px-3'>
           <Link
@@ -86,7 +94,7 @@ const Header = async () => {
           >
             Rooms
           </Link>
-          {/* <!-- Logged In Only --> */}
+          {user && (
             <>
               <Link
                 href='/bookings'
@@ -101,7 +109,7 @@ const Header = async () => {
                 Add Room
               </Link>
             </>
-        
+          )}
         </div>
       </div>
     </header>

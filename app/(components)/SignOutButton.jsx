@@ -2,14 +2,14 @@
 import React from 'react';
 import { FaSignOutAlt } from "react-icons/fa";
 import { toast } from 'react-toastify';
-import { logoutUser } from '../actions/logoutUser';
+import { signOut } from '../actions/userActions';
 import { useRouter } from 'next/navigation'; 
 
 function SignOutButton() {
     const router = useRouter(); 
 
     const handleLogout = async () => {
-        const response = await logoutUser();
+        const response = await signOut();
         if (response.success) {
             toast.success(response.message);
             router.push("/login");

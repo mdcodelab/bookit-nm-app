@@ -5,12 +5,10 @@ import Heading from "@/app/(components)/Heading";
 import { createRoom } from "@/app/actions/createRoom";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "@/context/authContext";
 
 
 
 function AddRoomsPage() {
-  const { userId } = useAuthContext();
   const router = useRouter();
   const [state, setState] = useState({ success: false, error: null });
   const [imagePreview, setImagePreview] = useState(null);
