@@ -12,6 +12,7 @@ export async function GET() {
 
     // Decodifică userId din token (dacă folosești JWT)
     const decoded = jwt.verify(token.value, process.env.JWT_SECRET);
+    console.log(decoded.userId);
     
     return Response.json({ userId: decoded.userId });
   } catch (error) {

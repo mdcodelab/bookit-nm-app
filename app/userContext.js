@@ -11,13 +11,21 @@ const AuthProvider = ({ children }) => {
 
   //FUNCTIONS
 
-    useEffect(()=> {
-      const getUserId = async () => {
-        const response = await axios.get("http://localhost:3000/api/user");
-        setUserId(response.data.userId);
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/user", {
+          withCredentials: true
+        });
+        setUserId(response.data.userId || "");
+      } catch (error) {
+        setUserId(""); // Dacă API-ul dă eroare, resetăm userId
       }
-      getUserId();
-      }, []);
+    };
+    getUserId();
+  }, []);
+  
+     
 
       console.log(userId);
 

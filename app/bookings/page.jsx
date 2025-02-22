@@ -7,7 +7,6 @@ import axios from "axios";
 function BookingsPage() {
   const [bookings, setBookings] = useState([]);
 
-
   const fetchBookings = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/getBookings");

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { checkBooking } from "../actions/checkBooking";
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from "../userContext";
 
 
 function Form({ room, bookedDates}) {
@@ -13,11 +14,13 @@ function Form({ room, bookedDates}) {
   const [checkInTime, setCheckInTime] = useState("");
   const [checkOutTime, setCheckOutTime] = useState("");
   const router=useRouter();
+  const {userId}=useAuthContext();
+  
 
   useEffect(() => {
     // Reset dates when room or bookedDates change
-    setCheckInDate(null);
-    setCheckOutDate(null);
+    setCheckInDate("");
+    setCheckOutDate("");
   }, [room, bookedDates]);
 
   const isDateAvailable = (date) => {
@@ -61,6 +64,11 @@ function Form({ room, bookedDates}) {
         toast.error("The room is already booked for the selected dates.");
         return;
       }
+
+      if(!userId) {
+        toast.error("You need to be logged in to book a room.");
+        return;
+      }
   
       const bookingData = {
         user_id: userId,
@@ -69,7 +77,7 @@ function Form({ room, bookedDates}) {
         check_out: checkOutDate,
       };
   
-      const response = await fetch("https://bookit-app-fc55.onrender.com/api/booking", {
+      const response = await fetch("http://localhost:3000/api/booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
