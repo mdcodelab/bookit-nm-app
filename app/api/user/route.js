@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -14,8 +15,17 @@ export async function GET() {
     const decoded = jwt.verify(token.value, process.env.JWT_SECRET);
     console.log(decoded.userId);
     
-    return Response.json({ userId: decoded.userId });
+    return NextResponse.json({ userId: decoded.userId });
   } catch (error) {
-    return Response.json({ error: "Invalid token" }, { status: 401 });
+    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
+}
+
+export async function POST () {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth_token"); 
+  console.log(cookieStore);
+  console.log(token);
+  cookiesStore.delete("auth_token");
+  return NextResponse.json({success: "Signed out successful."})
 }

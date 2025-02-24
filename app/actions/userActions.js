@@ -99,13 +99,6 @@ export async function getUserFromToken(authToken) {
 
 
 
-//SIGN OUT
-export async function signOut() {
-  cookies().delete("auth_token");
-  return {success: "Signed out successful."}
-}
-
-
 //GET USER
 export async function getUser() {
   try {

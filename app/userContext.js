@@ -1,46 +1,50 @@
-"use client";
-import React from "react";
-import { useState, useEffect} from "react";
-import axios from "axios";
+'use client';
+import React, { useState, useEffect } from 'react';
 
 const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
-  //STATE VALUES
-  const [userId, setUserId]=useState("");
-
-  //FUNCTIONS
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const getUserId = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/user", {
-          withCredentials: true
-        });
-        setUserId(response.data.userId || "");
+        const response = await fetch('/api/user', { credentials: 'include' });
+        if (response.ok) {
+          const data = await response.json();
+          setUserId(data.userId || '');
+        } else {
+          setUserId('');
+        }
       } catch (error) {
-        setUserId(""); // Dacă API-ul dă eroare, resetăm userId
+        setUserId('');
       }
     };
     getUserId();
   }, []);
-  
-     
 
-      console.log(userId);
+  const signOut = async () => {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        setUserId('');
+        return { success: true, message: 'Signed out successfully.' };
+      }
+    } catch (error) {
+      console.error('Logout failed', error);
+      return { success: false, message: 'An error occurred during logout.' };
+    }
+  };
 
   return (
-    <AuthContext.Provider
-      value={{
-        userId
-      }}
-    >
+    <AuthContext.Provider value={{ userId, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export { AuthContext, AuthProvider };
-export const useAuthContext = () => {
-  return React.useContext(AuthContext);
-};
+export const useAuthContext = () => React.useContext(AuthContext);

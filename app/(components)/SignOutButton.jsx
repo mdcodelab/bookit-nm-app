@@ -2,10 +2,11 @@
 import React from 'react';
 import { FaSignOutAlt } from "react-icons/fa";
 import { toast } from 'react-toastify';
-import { signOut } from '../actions/userActions';
 import { useRouter } from 'next/navigation'; 
+import { useAuthContext } from '../userContext';
 
 function SignOutButton() {
+    const {signOut}=useAuthContext();
     const router = useRouter(); 
 
     const handleLogout = async () => {

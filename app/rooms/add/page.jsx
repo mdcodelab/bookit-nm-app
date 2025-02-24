@@ -1,10 +1,10 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Heading from "@/app/(components)/Heading";
 import { createRoom } from "@/app/actions/createRoom";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/app/userContext";
 
 
 
@@ -13,6 +13,7 @@ function AddRoomsPage() {
   const [state, setState] = useState({ success: false, error: null });
   const [imagePreview, setImagePreview] = useState(null);
   const [imageBase64, setImageBase64] = useState('');
+  const {userId}=useAuthContext()
 
   useEffect(() => {
     if (state.success) {
