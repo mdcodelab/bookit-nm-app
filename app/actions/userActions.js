@@ -71,6 +71,14 @@ const myCookie = await cookies();
 }
 
 
+//LOGOUT
+export const logout = async () => {
+  const myCookies = await cookies();
+  myCookies.delete("auth_token");
+  redirect("/login");
+}
+
+
 //GET USER FROM TOKEN
 export async function getUserFromToken(authToken) {
   await mongoose.connect(process.env.MONGO_URL);

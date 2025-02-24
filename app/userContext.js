@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getUserId = async () => {
       try {
-        const response = await fetch('/api/user', { credentials: 'include' });
+        const response = await fetch('http://localhost:3000/api/user', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           setUserId(data.userId || '');
@@ -25,13 +25,15 @@ const AuthProvider = ({ children }) => {
 
   const signOut = async () => {
     try {
-      const response = await fetch('/api/logout', {
+      const response = await fetch('http://localhost:3000/api/logout', {
         method: 'POST',
         credentials: 'include',
       });
       if (response.ok) {
         setUserId('');
         return { success: true, message: 'Signed out successfully.' };
+      } else {
+        throw new Error('Logout failed.');
       }
     } catch (error) {
       console.error('Logout failed', error);
@@ -40,7 +42,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userId, signOut }}>
+    <AuthContext.Provider value={{ userId, signOut, setUserId }}>
       {children}
     </AuthContext.Provider>
   );

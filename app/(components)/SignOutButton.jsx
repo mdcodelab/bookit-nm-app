@@ -5,18 +5,13 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'; 
 import { useAuthContext } from '../userContext';
 
-function SignOutButton() {
-    const {signOut}=useAuthContext();
-    const router = useRouter(); 
+function SignOutButton({logout}) {
+    const {signOut, setUserId}=useAuthContext();
 
     const handleLogout = async () => {
-        const response = await signOut();
-        if (response.success) {
-            toast.success(response.message);
-            router.push("/login");
-        } else {
-            toast.error(response.message);
-        }
+        const response = await logout();
+        toast.success("Signed out successful.");
+        //router.push("/login");
     }
 
     return (

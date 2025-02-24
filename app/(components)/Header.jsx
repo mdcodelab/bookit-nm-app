@@ -4,6 +4,7 @@ import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
 import { cookies } from 'next/headers';
 import { getUserFromToken } from '../actions/userActions';
 import SignOutButton from './SignOutButton';
+import { logout } from '../actions/userActions';
 
 const Header = async () => {
   const cookieStore = await cookies();
@@ -17,6 +18,8 @@ const Header = async () => {
       console.error('Failed to fetch user:', error);
     }
   }
+
+  
 
   return (
     <header className='bg-gray-200'>
@@ -77,7 +80,7 @@ const Header = async () => {
                   <Link href='/rooms/my' className='mr-3 text-gray-800 hover:text-gray-600'>
                     <FaBuilding className='inline mr-1'/> My Rooms
                   </Link>
-                  <SignOutButton />
+                  <SignOutButton logout={logout}/>
                 </>
               )}
             </div>
