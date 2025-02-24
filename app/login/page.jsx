@@ -2,14 +2,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { login } from "../actions/userActions";
+import { useRouter } from "next/navigation";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,10 +21,10 @@ function LoginPage() {
       const response = await login(email, password);
       if (response.success) {
         toast.success(response.success);
-        router.push("/");
-      } else {
-        toast.error(response.error);
       }
+      console.log(router);
+        router.push("/");
+     // window.location.href=("/");
     } catch (error) {
       console.error(error);
       toast.error(error.message);

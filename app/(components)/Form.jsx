@@ -89,10 +89,10 @@ function Form({ room, bookedDates}) {
   
       if (response.ok) {
         toast.success("Booking created successfully!");
-        setCheckInDate(null);
-        setCheckOutDate(null);
-        setCheckInTime(null);
-        setCheckOutTime(null);
+        setCheckInDate("");
+        setCheckOutDate("");
+        setCheckInTime("");
+        setCheckOutTime("");
         router.push("/bookings");
       } else {
         toast.error(data.error || "Failed to create booking.");

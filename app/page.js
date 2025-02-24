@@ -1,34 +1,14 @@
-'use client'; 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { getAllRooms } from "./actions/getAllRooms.js";
 //import { rooms } from '@/data/rooms.js';
 import RoomCard from './(components)/RoomCard.jsx';
 import Heading from './(components)/Heading.jsx';
-import Accordeon from './(components)/Accordeon.jsx';
+import { Accordeon } from './(components)/Accordeon.jsx';
 
-function Page() {
-  const [rooms, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
+async function Page() {
+  const rooms = await getAllRooms();
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const roomsData = await getAllRooms();
-        setRooms(roomsData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch rooms:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRooms();
-  }, []);
-
-  if (loading) {
-    return <div className="min-h-[50vh] height">Loading...</div>;
-  }
+  
 
   return (
     <div className="h-full height min-h-[50vh]">

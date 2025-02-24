@@ -10,6 +10,7 @@ import Form from "@/app/(components)/Form";
 
 function RoomPage() {
   const { id } = useParams();
+  console.log(id);
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
 

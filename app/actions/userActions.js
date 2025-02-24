@@ -53,7 +53,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
   });
 
 // store the token in a cookie
-  cookies().set("auth_token", token, {
+const myCookie = await cookies();
+  myCookie.set("auth_token", token, {
     httpOnly: true, // Cookie-ul este accesibil doar serverului
     secure: process.env.NODE_ENV === "production", // Cookie-ul este securizat doar în producție
     sameSite: "strict", // Cookie-ul este accesibil doar pe același site
@@ -64,10 +65,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
   if(!token) {
     throw new Error("No auth token");
   }
-
+  
   return { success: "Login successful!", user: { _id: toString(existingUser._id), email: existingUser.email } };
 
-  //redirect("/");
 }
 
 
@@ -102,7 +102,8 @@ export async function getUserFromToken(authToken) {
 //GET USER
 export async function getUser() {
   try {
-    const authToken = cookies().get("auth_token")?.value;
+    const myCookies = await cookies();
+    const authToken = myCookies.get("auth_token")?.value;
     if (!authToken) return null;
 
     const JWT_SECRET = process.env.JWT_SECRET || "secret_key";

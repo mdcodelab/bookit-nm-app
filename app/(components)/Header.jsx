@@ -75,7 +75,7 @@ const Header = async () => {
               ) : (
                 <>
                   <Link href='/rooms/my' className='mr-3 text-gray-800 hover:text-gray-600'>
-                    <FaBuilding className='inline mr-1' /> My Rooms
+                    <FaBuilding className='inline mr-1'/> My Rooms
                   </Link>
                   <SignOutButton />
                 </>
