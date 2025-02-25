@@ -4,7 +4,7 @@ import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
 import { cookies } from 'next/headers';
 import { getUserFromToken } from '../actions/userActions';
 import SignOutButton from './SignOutButton';
-import { logout } from '../actions/userActions';
+//import { logout } from '../actions/userActions';
 
 const Header = async () => {
   const cookieStore = await cookies();
@@ -80,7 +80,7 @@ const Header = async () => {
                   <Link href='/rooms/my' className='mr-3 text-gray-800 hover:text-gray-600'>
                     <FaBuilding className='inline mr-1'/> My Rooms
                   </Link>
-                  <SignOutButton logout={logout}/>
+                  <SignOutButton/>
                 </>
               )}
             </div>
