@@ -65,7 +65,6 @@ const myCookie = await cookies();
   if(!token) {
     throw new Error("No auth token");
   }
-  
   return { success: "Login successful!", user: { _id: toString(existingUser._id), email: existingUser.email } };
 
 }

@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '../userContext';
 
 function SignOutButton({}) {
-    const {signOut, setUserId}=useAuthContext();
+    const {signOut, setUserId, userId}=useAuthContext();
     const router = useRouter();
+    console.log(userId);
 
     const handleLogout = async () => {
         const response = await signOut();
