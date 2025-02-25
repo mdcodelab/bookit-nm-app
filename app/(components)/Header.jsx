@@ -4,7 +4,6 @@ import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
 import { cookies } from 'next/headers';
 import { getUserFromToken } from '../actions/userActions';
 import SignOutButton from './SignOutButton';
-//import { logout } from '../actions/userActions';
 
 const Header = async () => {
   const cookieStore = await cookies();
