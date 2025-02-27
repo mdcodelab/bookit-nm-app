@@ -13,16 +13,20 @@ const AuthProvider = ({ children }) => {
         const response = await fetch('http://localhost:3000/api/getUser', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
+          setLoading(false);
           setUserId(data.userId);
         } else {
           setUserId('');
+          setUserId(false);
         }
       } catch (error) {
         setUserId('');
+        setUserId(false);
       }
     };
     getUserId();
-  }, [userId]);
+    getUserId();
+  }, []);
 
   const signOut = async () => {
     try {
@@ -35,10 +39,12 @@ const AuthProvider = ({ children }) => {
         setUserId('');
         return { success: true, message: 'Signed out successfully.' };
       } else {
+        setLoading(false);
         throw new Error('Logout failed.');
       }
     } catch (error) {
       console.error('Logout failed', error);
+      setLoading(false);
       return { success: false, message: 'An error occurred during logout.' };
     }
   };

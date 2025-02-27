@@ -4,6 +4,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'; 
 import { useAuthContext } from '../userContext';
+import { logout } from '../actions/userActions';
 
 function SignOutButton({}) {
     const {signOut, setUserId, userId}=useAuthContext();
@@ -11,7 +12,7 @@ function SignOutButton({}) {
     console.log(userId);
 
     const handleLogout = async () => {
-        const response = await signOut();
+        const response = await logout();
         toast.success("Signed out successful.");
         setUserId("");
         router.push("/login");
