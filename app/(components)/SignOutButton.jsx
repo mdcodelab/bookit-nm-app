@@ -12,6 +12,7 @@ function SignOutButton({}) {
     console.log(userId);
 
     const handleLogout = async () => {
+        await signOut();
         const response = await logout();
         toast.success("Signed out successful.");
         setUserId("");
