@@ -14,7 +14,7 @@ function BookedRoomCard({ booking, refreshBookings }) {
     const confirmed = window.confirm("Are you sure you want to delete this room?");
     if (confirmed) {
       try {
-        const response = await fetch("http://localhost:3000/api/cancelBooking", {
+        const response = await fetch("https://bookit-app-fc55.onrender.com/api/cancelBooking", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
