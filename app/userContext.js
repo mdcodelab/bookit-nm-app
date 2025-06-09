@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getUserId = async () => {
       try {
-        const response = await fetch('https://bookit-app-fc55.onrender.com/api/getUser', { credentials: 'include' });
+        const response = await fetch('https://bookit-rouge.vercel.app/api/getUser', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           setLoading(false);
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
 
   const signOut = async () => {
     try {
-      const response = await fetch('https://bookit-app-fc55.onrender.com/logout', {
+      const response = await fetch('https://bookit-rouge.vercel.app/logout', {
         method: 'POST',
         credentials: 'include',
       });

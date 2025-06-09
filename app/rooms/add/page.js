@@ -60,7 +60,7 @@ function AddRoomsPage() {
     };
 
     try {
-      const response = await fetch("https://bookit-app-fc55.onrender.com/api/createRoom", {
+      const response = await fetch("https://bookit-rouge.vercel.app/api/createRoom", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

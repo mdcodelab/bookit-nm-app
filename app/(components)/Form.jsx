@@ -77,7 +77,7 @@ function Form({ room, bookedDates}) {
         check_out: checkOutDate,
       };
   
-      const response = await fetch("https://bookit-app-fc55.onrender.com/api/createBooking", {
+      const response = await fetch("https://bookit-rouge.vercel.app/api/createBooking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
