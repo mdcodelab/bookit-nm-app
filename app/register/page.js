@@ -12,20 +12,17 @@ function RegisterPage() {
   const [password, setPassword]=useState("");
   const [rePassword, setRePassword]=useState("");
 
-//const router = useRouter();
-
-  async function handleSubmit (e) {
-    e.preventDefault();
+  async function handleSubmit(e) {
+  e.preventDefault();
+  try {
     const response = await register(name, email, password, rePassword);
-    if(response.success) {
-      toast.success(response.success);
-      //router.push("/login");
-    } else if (response.error) {
-      toast.error(response.error)
-    } else {
-      toast.error("An unexpected error occurred.")
-    }
+    toast.success("Registration successful!");
+    // router.push("/login");
+  } catch (error) {
+    toast.error(error.message);
   }
+}
+
 
   return (
     <div className="flex items-center justify-center">
