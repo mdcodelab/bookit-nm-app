@@ -3,20 +3,18 @@ import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { register } from '../actions/userActions';
+import { login } from '../actions/userActions';
 //import { useRouter } from 'next/navigation';
 
-function RegisterPage() {
-  const [name, setName]=useState("");
+function LoginPage() {
   const [email, setEmail]=useState("");
   const [password, setPassword]=useState("");
-  const [rePassword, setRePassword]=useState("");
 
 //const router = useRouter();
 
   async function handleSubmit (e) {
     e.preventDefault();
-    const response = await register(name, email, password, rePassword);
+    const response = await login(name, email, password);
     if(response.success) {
       toast.success(response.success);
       //router.push("/login");
@@ -32,21 +30,8 @@ function RegisterPage() {
         <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-5 mb-5">
           <form onSubmit={handleSubmit}>
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-              Register
+              Login
             </h2>
-
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-bold mb-2"
-                >Name</label
-              >
-              <input
-                type="text"
-                id="name"
-                name="name" value={name} placeholder="Your name..."
-                className="border rounded w-full py-2 px-3"
-                onChange={(e)=>setName(e.target.value)}
-              />
-            </div>
 
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700 font-bold mb-2"
@@ -74,32 +59,18 @@ function RegisterPage() {
               />
             </div>
 
-            <div className="mb-6">
-              <label
-                htmlFor="rePassword"
-                className="block text-gray-700 font-bold mb-2"
-                >Confirm Password</label
-              >
-              <input
-                type="password"
-                id="rePassword"
-                name="rePassword" value={rePassword} placeholder="Conform password ..."
-                className="border rounded w-full py-2 px-3"
-                onChange={(e)=> setRePassword(e.target.value)}
-              />
-            </div>
 
             <div className="flex flex-col gap-5">
               <button
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
-                Register
+                Login
               </button>
 
               <p>
-                Have an account?
-                <Link href="/login" className="text-blue-500"> Login</Link>
+                Don't have an account?
+                <Link href="/register" className="text-blue-500"> Register</Link>
               </p>
             </div>
           </form>
@@ -108,4 +79,4 @@ function RegisterPage() {
   )
 }
 
-export default RegisterPage;
+export default LoginPage;
